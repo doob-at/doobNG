@@ -3,5 +3,265 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-  }
+    "@doob-ng/core": {
+      "projectType": "library",
+      "root": "projects/doob-ng/core",
+      "sourceRoot": "projects/doob-ng/core/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/doob-ng/core/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/doob-ng/core/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/doob-ng/core/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/doob-ng/core/src/test.ts",
+            "tsConfig": "projects/doob-ng/core/tsconfig.spec.json",
+            "karmaConfig": "projects/doob-ng/core/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@doob-ng/grid": {
+      "projectType": "library",
+      "root": "projects/doob-ng/grid",
+      "sourceRoot": "projects/doob-ng/grid/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/doob-ng/grid/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/doob-ng/grid/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/doob-ng/grid/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/doob-ng/grid/src/test.ts",
+            "tsConfig": "projects/doob-ng/grid/tsconfig.spec.json",
+            "karmaConfig": "projects/doob-ng/grid/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@doob-ng/editor": {
+      "projectType": "library",
+      "root": "projects/doob-ng/editor",
+      "sourceRoot": "projects/doob-ng/editor/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/doob-ng/editor/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/doob-ng/editor/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/doob-ng/editor/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/doob-ng/editor/src/test.ts",
+            "tsConfig": "projects/doob-ng/editor/tsconfig.spec.json",
+            "karmaConfig": "projects/doob-ng/editor/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@doob-ng/antd-extensions": {
+      "projectType": "library",
+      "root": "projects/doob-ng/antd-extensions",
+      "sourceRoot": "projects/doob-ng/antd-extensions/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/doob-ng/antd-extensions/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/doob-ng/antd-extensions/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/doob-ng/antd-extensions/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/doob-ng/antd-extensions/src/test.ts",
+            "tsConfig": "projects/doob-ng/antd-extensions/tsconfig.spec.json",
+            "karmaConfig": "projects/doob-ng/antd-extensions/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@doob-ng/cdk-helper": {
+      "projectType": "library",
+      "root": "projects/doob-ng/cdk-helper",
+      "sourceRoot": "projects/doob-ng/cdk-helper/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/doob-ng/cdk-helper/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/doob-ng/cdk-helper/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/doob-ng/cdk-helper/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/doob-ng/cdk-helper/src/test.ts",
+            "tsConfig": "projects/doob-ng/cdk-helper/tsconfig.spec.json",
+            "karmaConfig": "projects/doob-ng/cdk-helper/karma.conf.js"
+          }
+        }
+      }
+    },
+    "demo": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/demo",
+      "sourceRoot": "projects/demo/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/demo",
+            "index": "projects/demo/src/index.html",
+            "main": "projects/demo/src/main.ts",
+            "polyfills": "projects/demo/src/polyfills.ts",
+            "tsConfig": "projects/demo/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/demo/src/favicon.ico",
+              "projects/demo/src/assets"
+            ],
+            "styles": [
+              "projects/demo/src/theme.less",
+              "projects/demo/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/demo/src/environments/environment.ts",
+                  "with": "projects/demo/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "demo:build:production"
+            },
+            "development": {
+              "browserTarget": "demo:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "demo:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/demo/src/test.ts",
+            "polyfills": "projects/demo/src/polyfills.ts",
+            "tsConfig": "projects/demo/tsconfig.spec.json",
+            "karmaConfig": "projects/demo/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/demo/src/favicon.ico",
+              "projects/demo/src/assets"
+            ],
+            "styles": [
+              "projects/demo/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "@doob-ng/core"
 }

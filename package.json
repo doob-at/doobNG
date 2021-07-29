@@ -6,10 +6,22 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build:core": "ng build @doob-ng/core --configuration production",
+    "publish:core": "npm publish ./dist/doob-ng/core --access public",
+    "build:grid": "ng build @doob-ng/grid --configuration production",
+    "publish:grid": "npm publish ./dist/doob-ng/grid --access public",
+    "build:editor": "ng build @doob-ng/editor --configuration production",
+    "publish:editor": "npm publish ./dist/doob-ng/editor --access public",
+    "build:antd": "ng build @doob-ng/antd-extensions --configuration production",
+    "publish:antd": "npm publish ./dist/doob-ng/antd-extensions --access public",
+    "build:cdk-helper": "ng build @doob-ng/cdk-helper --configuration production",
+    "publish:cdk-helper": "npm publish ./dist/doob-ng/cdk-helper --access public"
   },
   "private": true,
   "dependencies": {
+    "@ag-grid-community/angular": "^25.3.0",
+    "@ag-grid-community/client-side-row-model": "^25.3.0",
     "@angular/animations": "~12.1.0-",
     "@angular/common": "~12.1.0-",
     "@angular/compiler": "~12.1.0-",
@@ -18,11 +30,22 @@
     "@angular/platform-browser": "~12.1.0-",
     "@angular/platform-browser-dynamic": "~12.1.0-",
     "@angular/router": "~12.1.0-",
+    "@datorama/akita": "^6.2.1",
+    "@datorama/akita-ng-router-store": "^6.0.1",
+    "@datorama/akita-ngdevtools": "^6.0.1",
+    "@fortawesome/angular-fontawesome": "^0.9.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-brands-svg-icons": "^5.15.3",
+    "@fortawesome/free-regular-svg-icons": "^5.15.3",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "monaco-editor": "^0.26.1",
+    "ng-zorro-antd": "^12.0.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "~12.1.3",
     "@angular/cli": "~12.1.3",
     "@angular/compiler-cli": "~12.1.0-",
     "@types/jasmine": "~3.8.0",
@@ -33,6 +56,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "ng-packagr": "^12.1.0",
     "typescript": "~4.3.2"
   }
 }

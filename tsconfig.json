@@ -2,10 +2,52 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "@doob-ng/core": [
+        "dist/doob-ng/core/doob-ng-core",
+        "dist/doob-ng/core"
+      ],
+      "@local/core": [
+        "projects/doob-ng/core/doob-ng-core",
+        "projects/doob-ng/core"
+      ],
+      "@doob-ng/editor": [
+        "dist/doob-ng/editor/doob-ng-editor",
+        "dist/doob-ng/editor"
+      ],
+      "@local/editor": [
+        "projects/doob-ng/editor/doob-ng-editor",
+        "projects/doob-ng/editor"
+      ],
+      "@doob-ng/cdk-helper": [
+        "dist/doob-ng/cdk-helper/doob-ng-cdk-helper",
+        "dist/doob-ng/cdk-helper"
+      ],
+      "@local/cdk-helper": [
+        "projects/doob-ng/cdk-helper/doob-ng-cdk-helper",
+        "projects/doob-ng/cdk-helper"
+      ],
+      "@doob-ng/grid": [
+        "dist/doob-ng/grid/doob-ng-grid",
+        "dist/doob-ng/grid"
+      ],
+      "@local/grid": [
+        "projects/doob-ng/grid/doob-ng-grid",
+        "projects/doob-ng/grid"
+      ],
+      "@doob-ng/antd-extensions": [
+        "dist/doob-ng/antd-extensions/doob-ng-antd-extensions",
+        "dist/doob-ng/antd-extensions"
+      ],
+      "@local/antd-extensions": [
+        "projects/doob-ng/antd-extensions/doob-ng-antd-extensions",
+        "projects/doob-ng/antd-extensions"
+      ]
+    },
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
+    "strict": false,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,

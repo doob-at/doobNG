@@ -1,0 +1,75 @@
+name: Publish @doob-ng/core
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'projects/doob-ng/core/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://registry.npmjs.org/
+
+      - name: npm install
+        run:  npm install
+
+      - name: build @doob-ng/core
+        run:  npm run ng build @doob-ng/core -- --prod
+
+      - name: build @doob-ng/grid
+        run:  npm run ng build @doob-ng/grid -- --prod
+
+      - name: build @doob-ng/editor
+        run:  npm run ng build @doob-ng/editor -- --prod
+
+      - name: build @doob-ng/antd
+        run:  npm run ng build @doob-ng/antd -- --prod
+
+      - name: build @doob-ng/cdk-helper
+        run:  npm run ng build @doob-ng/cdk-helper -- --prod
+
+      - name: publish core
+        run:  npm publish dist/doob-ng/core --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+      - name: publish grid
+        run:  npm publish dist/doob-ng/grid --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      
+      - name: publish editor
+        run:  npm publish dist/doob-ng/editor --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+      - name: publish antd
+        run:  npm publish dist/doob-ng/antd --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+      - name: publish cdk-helper
+        run:  npm publish dist/doob-ng/cdk-helper --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
