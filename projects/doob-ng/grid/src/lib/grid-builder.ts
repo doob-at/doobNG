@@ -196,7 +196,7 @@ export class GridBuilder<T = any> {
     WithRowSelection(value: "single" | "multiple") {
         this.SetGridOptions({
             rowSelection: value,
-            rowDeselection: value == "multiple"
+            //suppressRowDeselection: value == "multiple"
         })
         return this;
     }
@@ -220,12 +220,12 @@ export class GridBuilder<T = any> {
         })
         return this;
     }
-    StopEditingWhenGridLosesFocus(value?: boolean) {
+    stopEditingWhenCellsLoseFocus(value?: boolean) {
         if (value === null || value === undefined) {
             value = true;
         }
         this.SetGridOptions({
-            stopEditingWhenGridLosesFocus: value
+            stopEditingWhenCellsLoseFocus: value
         })
         return this;
     }

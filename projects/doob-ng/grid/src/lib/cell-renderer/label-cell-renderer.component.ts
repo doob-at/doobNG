@@ -17,20 +17,15 @@ export class DoobLabelCellRendererComponent implements ICellRendererAngularComp 
 
     agInit(params: ICellRendererParams): void {
 
-        const val = params.valueFormatted || params.value;
-        if (val instanceof Array) {
-            this.labels = val;
-        } else {
-            const separator = params['separator'] ? params['separator'] : ',';
-            this.labels = `${val}`.split(separator).map(v => v.trim());
-        }
+        this.getValueToDisplay(params);
 
         this._labelClass = params['labelClass'];
         this._labelStyle = params['labelStyle'];
 
     }
 
-    refresh(): boolean {
+    refresh(params: ICellRendererParams) {
+        this.getValueToDisplay(params);
         return true;
     }
 
@@ -55,6 +50,16 @@ export class DoobLabelCellRendererComponent implements ICellRendererAngularComp 
             return this._labelStyle(label);
         } else {
             return this._labelStyle;
+        }
+    }
+
+    getValueToDisplay(params: ICellRendererParams) {
+        const val = params.valueFormatted || params.value;
+        if (val instanceof Array) {
+            this.labels = val;
+        } else {
+            const separator = params['separator'] ? params['separator'] : ',';
+            this.labels = `${val}`.split(separator).map(v => v.trim());
         }
     }
 
