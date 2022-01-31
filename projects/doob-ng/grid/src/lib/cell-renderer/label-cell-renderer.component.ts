@@ -26,7 +26,7 @@ export class DoobLabelCellRendererComponent implements ICellRendererAngularComp 
 
     refresh(params: ICellRendererParams) {
         this.getValueToDisplay(params);
-        return true;
+        return false;
     }
 
     public getLabelClass(label: string) {

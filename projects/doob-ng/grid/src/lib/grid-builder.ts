@@ -220,7 +220,7 @@ export class GridBuilder<T = any> {
         })
         return this;
     }
-    stopEditingWhenCellsLoseFocus(value?: boolean) {
+    StopEditingWhenCellsLoseFocus(value?: boolean) {
         if (value === null || value === undefined) {
             value = true;
         }

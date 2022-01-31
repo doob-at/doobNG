@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ICellRendererAngularComp } from '@ag-grid-community/angular';
+import { ICellRendererParams } from '@ag-grid-community/core';
 
 @Component({
     selector: 'db-date-cell',
@@ -21,16 +22,21 @@ export class DoobDateCellRendererComponent implements ICellRendererAngularComp {
     public date: Date;
     public showSeconds: boolean;
 
-    agInit(params: any): void {
-        this.date = params.value;
+    agInit(params: ICellRendererParams): void {
+        this.getValueToDisplay(params);
 
         const showSeconds = params['showSeconds'];
         this.showSeconds = !!showSeconds
 
     }
 
-    refresh(): boolean {
-        return true;
+    refresh(params: ICellRendererParams): boolean {
+        this.getValueToDisplay(params);
+        return false;
+    }
+
+    getValueToDisplay(params: ICellRendererParams) {
+        this.date = params.value;
     }
 
 }

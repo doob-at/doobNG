@@ -45,7 +45,7 @@ export class DoobGridDirective implements OnDestroy, OnInit {
         $event.preventDefault();
 
         const targetElement = $event.target as HTMLElement;
-        const targetIsViewPort = targetElement.classList.contains("ag-center-cols-viewport");
+        const targetIsViewPort = targetElement.classList.contains("ag-body-viewport") || targetElement.classList.contains("ag-center-cols-viewport");
 
         if (this.builderOptions?.OnViewPortContextMenu && targetIsViewPort) {
             this.builderOptions.OnViewPortContextMenu($event, this.aggrid.api);
@@ -63,7 +63,7 @@ export class DoobGridDirective implements OnDestroy, OnInit {
         
 
         const targetElement = $event.target as HTMLElement;
-        const targetIsViewPort = targetElement.classList.contains("ag-center-cols-viewport");
+        const targetIsViewPort = targetElement.classList.contains("ag-body-viewport") || targetElement.classList.contains("ag-center-cols-viewport");
 
         if (this.builderOptions?.OnViewPortClick && targetIsViewPort) {
             $event.preventDefault();
