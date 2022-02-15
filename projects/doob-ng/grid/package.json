@@ -1,11 +1,11 @@
 {
   "name": "@doob-ng/grid",
-  "version": "2.0.0",
+  "version": "3.2.1",
   "peerDependencies": {
-    "@angular/common": "^12.1.0-",
-    "@angular/core": "^12.1.0-",
-    "@ag-grid-community/all-modules": "^25.3.0-",
-    "@ag-grid-community/angular": "^25.3.0-"
+    "@angular/common": "13",
+    "@angular/core": "13",
+    "@ag-grid-community/angular": "26",
+    "@ag-grid-community/client-side-row-model": "26"
   },
   "dependencies": {
     "tslib": "^2.2.0"

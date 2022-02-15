@@ -1,9 +1,10 @@
 {
   "name": "@doob-ng/cdk-helper",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "peerDependencies": {
-    "@angular/common": "^12.1.0-",
-    "@angular/core": "^12.1.0-"
+    "@angular/common": "13",
+    "@angular/core": "13",
+    "@angular/cdk": "13"
   },
   "dependencies": {
     "tslib": "^2.2.0"

@@ -1,34 +1,48 @@
-import { Injectable, TemplateRef, ViewContainerRef, Type, Injector, ComponentRef, ComponentFactoryResolver } from "@angular/core";
+import {
+    Injectable,
+    TemplateRef,
+    ViewContainerRef,
+    Type,
+    Injector,
+    ComponentFactoryResolver,
+} from '@angular/core';
 import { OverlayRef, Overlay, OverlayConfig } from '@angular/cdk/overlay';
-import { TemplatePortal, ComponentPortal, PortalInjector } from '@angular/cdk/portal';
-import { fromEvent, Subscription, merge, Subject } from 'rxjs';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import {
+    TemplatePortal,
+    ComponentPortal,
+} from '@angular/cdk/portal';
+import { fromEvent, merge, Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 import { OverlayOptions } from './overlay-options';
-import { ModalEventHandlerContext } from "./modal/modal-event-handler-context";
-import { ModalEventHandlers } from "./modal/modal-event-handlers";
+import { ModalEventHandlerContext } from './modal/modal-event-handler-context';
+import { ModalEventHandlers } from './modal/modal-event-handlers';
 import { ComponentModalOptions } from './component-modal-options';
 import { TemplateModalOptions } from './template-modal-options';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class DoobOverlayService {
+    constructor(
+        private overlay: Overlay,
+        private injector: Injector,
+        private componentFactoryResolver: ComponentFactoryResolver
+    ) {}
 
-    constructor(private overlay: Overlay, private injector: Injector, private componentFactoryResolver: ComponentFactoryResolver) {
-
-    }
-
-    OpenContextMenu($event: MouseEvent, templateRef: TemplateRef<any>, viewContainerRef: ViewContainerRef, context: any): IOverlayHandle {
-
-
+    OpenContextMenu(
+        $event: MouseEvent,
+        templateRef: TemplateRef<any>,
+        viewContainerRef: ViewContainerRef,
+        context: any
+    ): IOverlayHandle {
         if ($event.ctrlKey) {
             return undefined;
         }
 
         $event.preventDefault();
 
-
-        const positionStrategy = this.overlay.position()
+        const positionStrategy = this.overlay
+            .position()
             .flexibleConnectedTo({ x: $event.x, y: $event.y })
             .withPositions([
                 {
@@ -36,7 +50,7 @@ export class DoobOverlayService {
                     originY: 'bottom',
                     overlayX: 'start',
                     overlayY: 'top',
-                }
+                },
             ]);
 
         const overlayRef = this.overlay.create({
@@ -44,7 +58,7 @@ export class DoobOverlayService {
             scrollStrategy: this.overlay.scrollStrategies.noop(),
         });
         var tp = new TemplatePortal(templateRef, viewContainerRef, {
-            $implicit: context
+            $implicit: context,
         });
 
         var emb = overlayRef.attach(tp);
@@ -52,19 +66,25 @@ export class DoobOverlayService {
         return new ContextMenuHandle(overlayRef, emb.rootNodes, $event);
     }
 
-    OpenTemplateRefModal(templateRef: TemplateRef<any>, viewContainerRef: ViewContainerRef, context: any, templateModalOptions?: TemplateModalOptions): IOverlayHandle {
-        console.log(context)
-        const positionStrategy = this.overlay.position()
+    OpenTemplateRefModal(
+        templateRef: TemplateRef<any>,
+        viewContainerRef: ViewContainerRef,
+        context: any,
+        templateModalOptions?: TemplateModalOptions
+    ): IOverlayHandle {
+        console.log(context);
+        const positionStrategy = this.overlay
+            .position()
             .global()
-            .top("50px")
-            .centerHorizontally()
+            .top('50px')
+            .centerHorizontally();
 
         let overlayConfig: OverlayConfig = {
             positionStrategy,
             scrollStrategy: this.overlay.scrollStrategies.noop(),
             hasBackdrop: true,
-            ...templateModalOptions?.overlayConfig
-        }
+            ...templateModalOptions?.overlayConfig,
+        };
 
         const overlayRef = this.overlay.create(overlayConfig);
 
@@ -73,7 +93,7 @@ export class DoobOverlayService {
         const modalContext = new OverlayContext(handle, options);
 
         var tp = new TemplatePortal(templateRef, viewContainerRef, {
-            $implicit: modalContext
+            $implicit: modalContext,
         });
 
         overlayRef.attach(tp);
@@ -81,78 +101,109 @@ export class DoobOverlayService {
         return handle;
     }
 
-    OpenComponentModal<T>(component: Type<T>, context: any, componentModalOptions?: ComponentModalOptions): IOverlayHandle {
-
-        const positionStrategy = this.overlay.position()
+    OpenComponentModal<T>(
+        component: Type<T>,
+        context: any,
+        componentModalOptions?: ComponentModalOptions
+    ): IOverlayHandle {
+        const positionStrategy = this.overlay
+            .position()
             .global()
-            .top("50px")
-            .centerHorizontally()
+            .top('50px')
+            .centerHorizontally();
 
         let overlayConfig: OverlayConfig = {
             positionStrategy,
             scrollStrategy: this.overlay.scrollStrategies.noop(),
             hasBackdrop: true,
-            ...componentModalOptions?.overlayConfig
-        }
+            ...componentModalOptions?.overlayConfig,
+        };
 
         const overlayRef = this.overlay.create(overlayConfig);
 
         var options = this.buildOverlayOptions(context);
         const handle = new ModalHandle(overlayRef, options);
 
-        var cp = new ComponentPortal(component, null, this.createPortalInjector(options, handle), componentModalOptions?.componentFactoryResolver || this.componentFactoryResolver);
+        var cp = new ComponentPortal(
+            component,
+            null,
+            this.createPortalInjector(options, handle),
+            componentModalOptions?.componentFactoryResolver ||
+                this.componentFactoryResolver
+        );
 
         overlayRef.attach(cp);
 
-        return handle
+        return handle;
     }
 
-    private createPortalInjector<T>(options: OverlayOptions<T>, handle: IOverlayHandle): PortalInjector {
+    private createPortalInjector<T>(
+        options: OverlayOptions<T>,
+        handle: IOverlayHandle
+    ): Injector {
         const injectionTokens = new WeakMap();
-
 
         const modalContext = new OverlayContext<T>(handle, options);
 
-
         injectionTokens.set(OverlayContext, modalContext);
 
-        return new PortalInjector(this.injector, injectionTokens);
+        return Injector.create({
+            parent: this.injector,
+            providers: [
+                {
+                    provide: OverlayContext,
+                    useValue: modalContext,
+                },
+            ],
+        });
     }
 
     private buildOverlayOptions<T>(context: T) {
-
         let baseContext: OverlayOptions<T>;
 
         if (!(context instanceof OverlayOptions)) {
             baseContext = new OverlayOptions<T>();
-            baseContext.data = context
+            baseContext.data = context;
         } else {
             baseContext = context;
         }
 
         return baseContext;
     }
-
 }
 
 export interface IOverlayHandle {
     Close();
 }
 export class ContextMenuHandle implements IOverlayHandle {
-
-    private closeDestroy$ = new Subject();
-    constructor(private overlayRef: OverlayRef, templ: Array<HTMLElement>, excludeEvent: MouseEvent) {
-        merge(fromEvent<MouseEvent>(document, 'click'), fromEvent<MouseEvent>(document, 'contextmenu'))
+    private closeDestroy$ = new Subject<void>();
+    constructor(
+        private overlayRef: OverlayRef,
+        templ: Array<HTMLElement>,
+        excludeEvent: MouseEvent
+    ) {
+        merge(
+            fromEvent<MouseEvent>(document, 'click'),
+            fromEvent<MouseEvent>(document, 'contextmenu')
+        )
             .pipe(
                 takeUntil(this.closeDestroy$),
-                filter(ev => ev.type !== 'contextmenu' || (ev.x != excludeEvent.x && ev.y != excludeEvent.y)),
-                filter(event => {
+                filter(
+                    (ev) =>
+                        ev.type !== 'contextmenu' ||
+                        (ev.x != excludeEvent.x && ev.y != excludeEvent.y)
+                ),
+                filter((event) => {
                     const clickTarget = event.target as HTMLElement;
-                    return !!this.overlayRef && !this.overlayRef.overlayElement.contains(clickTarget);
-                }),
-            ).subscribe(() => {
+                    return (
+                        !!this.overlayRef &&
+                        !this.overlayRef.overlayElement.contains(clickTarget)
+                    );
+                })
+            )
+            .subscribe(() => {
                 this.Close();
-            })
+            });
     }
 
     Close() {
@@ -165,34 +216,35 @@ export class ContextMenuHandle implements IOverlayHandle {
 }
 
 export class ModalHandle implements IOverlayHandle {
-
     private closeDestroy$ = new Subject();
-    constructor(private overlayRef: OverlayRef, private options: OverlayOptions) {
-
+    constructor(
+        private overlayRef: OverlayRef,
+        private options: OverlayOptions
+    ) {
         if (options.closeOnOutsideClick) {
-            overlayRef.backdropClick()
-                .pipe(
-                    takeUntil(this.closeDestroy$)
-                )
-                .subscribe(() => this.Close())
+            overlayRef
+                .backdropClick()
+                .pipe(takeUntil(this.closeDestroy$))
+                .subscribe(() => this.Close());
         }
         if (options.closeOnEsc) {
-            overlayRef.keydownEvents()
+            overlayRef
+                .keydownEvents()
                 .pipe(
                     takeUntil(this.closeDestroy$),
-                    filter(ev => ev.keyCode === 27 )
+                    filter((ev) => ev.keyCode === 27)
                 )
-                .subscribe(() => this.Close())
+                .subscribe(() => this.Close());
         }
     }
 
     Close() {
-        this.closeDestroy$.next();
-        if(this.options.onClose) {
+        this.closeDestroy$.next(true);
+        if (this.options.onClose) {
             this.options.onClose();
         }
         if (this.overlayRef) {
-            console.log("OverlayRef - Dispose")
+            console.log('OverlayRef - Dispose');
             this.overlayRef.dispose();
             this.overlayRef = null;
         }
@@ -200,23 +252,21 @@ export class ModalHandle implements IOverlayHandle {
 }
 
 export class OverlayContext<TData = any, TMeta = any> {
-
-
     data: TData;
     eventHandlers: ModalEventHandlers;
-    metaData:  TMeta;
+    metaData: TMeta;
 
-    constructor(public handle: IOverlayHandle, context: OverlayOptions<TData, TMeta>) {
-
+    constructor(
+        public handle: IOverlayHandle,
+        context: OverlayOptions<TData, TMeta>
+    ) {
         this.data = context.data;
         this.metaData = context.metaData;
         this.eventHandlers = context.eventHandlers;
-
     }
 
     invoke<TResult>(key: string, payload: any): TResult {
         if (this.eventHandlers[key]) {
-
             let eventContext = new ModalEventHandlerContext();
             eventContext.handle = this.handle;
             eventContext.payload = payload;
@@ -224,7 +274,4 @@ export class OverlayContext<TData = any, TMeta = any> {
         }
         return undefined;
     }
-
 }
-
-

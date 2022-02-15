@@ -55,7 +55,9 @@ export class DoobLabelCellRendererComponent implements ICellRendererAngularComp 
 
     getValueToDisplay(params: ICellRendererParams) {
         const val = params.valueFormatted || params.value;
-        if (val instanceof Array) {
+        if(!val) {
+            this.labels = []
+        } else if (val instanceof Array) {
             this.labels = val;
         } else {
             const separator = params['separator'] ? params['separator'] : ',';

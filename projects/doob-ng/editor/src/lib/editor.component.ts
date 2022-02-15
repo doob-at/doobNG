@@ -82,6 +82,9 @@ export class DoobEditorComponent implements OnInit, OnDestroy, ControlValueAcces
     @Input()
     tsOptions: TypescriptOptions;
 
+    @Input()
+    jsonDiagnosticOptions: monaco.languages.json.DiagnosticsOptions;
+
 
     @Output() valueChanged = new EventEmitter<string>();
     @Output() activeFile = new EventEmitter<string>();
@@ -89,7 +92,7 @@ export class DoobEditorComponent implements OnInit, OnDestroy, ControlValueAcces
 
 
     private initialized$: Subject<boolean> = new Subject<boolean>();
-    private destroy$: Subject<any> = new Subject<any>();
+    private destroy$ = new Subject<void>();
 
     constructor(private elementRef: ElementRef, private monacoLoader: MonacoLoaderService, private editorState: DoobEditorStateService) {
 
@@ -714,6 +717,11 @@ export class DoobEditorComponent implements OnInit, OnDestroy, ControlValueAcces
         monaco.languages.typescript.javascriptDefaults.setCompilerOptions(
             compilerOptions
         );
+
+        if(this.jsonDiagnosticOptions) {
+            monaco.languages.json.jsonDefaults.setDiagnosticsOptions(this.jsonDiagnosticOptions)
+        }
+        
 
         monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
         monaco.languages.typescript.typescriptDefaults.setMaximumWorkerIdleTime(1000);

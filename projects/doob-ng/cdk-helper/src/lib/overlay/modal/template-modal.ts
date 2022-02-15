@@ -16,7 +16,7 @@ export class TemplateModal {
 
     }
 
-    SetData(value: any) {
+    SetData<TData = any>(value: TData) {
         this.overlayOptions.data = value;
         return this;
     }

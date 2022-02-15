@@ -52,14 +52,21 @@ export class GridBuilder<T = any> {
         return this;
     }
 
-    SetData(data: T[] | Observable<T[]>) {
+    SetData(data: T[] | Observable<T[] | null | undefined> | null | undefined) {
 
         if (isObservable(data)) {
             this.DataObservable$ = data;
         } else {
             if (this.grid && this.grid.api) {
-                this.grid.api.setRowData(data);
+                if(data == null || data == undefined){
+                    this.grid.api.setRowData([]);
+                    this.grid.api.showLoadingOverlay();
+                } else {
+                    this.grid.api.setRowData(data);
+                }
+                
             } else {
+                if(data != null && data != undefined)
                 this.SetGridOptions({
                     rowData: data
                 })
@@ -136,7 +143,7 @@ export class GridBuilder<T = any> {
     }
 
     OnRowDoubleClicked(value: ((event: RowDoubleClickedEvent) => void)) {
-
+        
         this.SetGridOptions({
             onRowDoubleClicked: value
         })

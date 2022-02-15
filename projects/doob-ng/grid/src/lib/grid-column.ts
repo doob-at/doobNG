@@ -1,6 +1,6 @@
 import { AgGridColumn } from '@ag-grid-community/angular';
 import { Type } from '@angular/core';
-import { CellClassParams } from '@ag-grid-community/core';
+import { CellClassParams, ITooltipParams, ValueGetterParams } from '@ag-grid-community/core';
 import { DoobValueFormatterParams } from './DoobValueFormatterParams';
 
 export class GridColumn<T = any> {
@@ -172,9 +172,14 @@ export class GridColumn<T = any> {
         return this;
     }
 
-    SetValueFormatter<TValue = any, TData = any, TContext = any>(formatter: ((value: DoobValueFormatterParams<TValue, TData, TContext>) => any)) {
+    SetValueFormatter<TValue = any, TData = any, TContext = any>(formatter: ((value: DoobValueFormatterParams<TValue, TData, TContext>) => string)) {
         this.agGridColumn.valueFormatter = formatter;
         return this;
+    }
+
+    TransformValue(value: ((params: ValueGetterParams) => string)) {
+        this.agGridColumn.valueGetter = (d) => value(d);
+        return this
     }
 
     Set(set: ((column: AgGridColumn) => void)) {
@@ -195,6 +200,20 @@ export class GridColumn<T = any> {
             value = true;
         }
         this.agGridColumn.hide = value;
+        return this;
+    }
+
+    ShowValueAsTooltip(value?: boolean | ((params: ITooltipParams) => string | null | undefined)) {
+        if (value === null || value === undefined) {
+            value = true;
+        }
+
+        if(value instanceof Function){
+            this.agGridColumn.tooltipValueGetter = value;
+        } else {
+            this.agGridColumn.tooltipField = this.agGridColumn.field;
+        }
+        
         return this;
     }
 

@@ -1,12 +1,12 @@
 {
   "name": "@doob-ng/antd-extensions",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "peerDependencies": {
-    "@angular/common": "^12.1.0-",
-    "@angular/core": "^12.1.0-",
-    "@fortawesome/angular-fontawesome": "^0.9.0-",
-    "@fortawesome/fontawesome-svg-core": "^1.2.35-",
-    "ng-zorro-antd": "^12.0.1-"
+    "@angular/common": "13",
+    "@angular/core": "13",
+    "@fortawesome/angular-fontawesome": "0.10 - *",
+    "@fortawesome/fontawesome-svg-core": "1.2.35 - *",
+    "ng-zorro-antd": "13"
   },
   "dependencies": {
     "tslib": "^2.2.0"

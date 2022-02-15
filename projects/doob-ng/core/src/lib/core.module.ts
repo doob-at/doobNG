@@ -8,6 +8,7 @@ import { DoobOnKeyDirective } from './directives/on-key.directive';
 import { DoobAllowedCharactersDirective } from './directives/allowed-characters.directive';
 import { DoobPortalDirective } from './portal/portal.directive';
 import { DoobPortalTemplateDirective } from './portal/portal-template.directive';
+import { DoobNotAllowedCharactersDirective } from './directives/not-allowed-characters.directive';
 
 
 const exportDirectives = [
@@ -18,6 +19,7 @@ const exportDirectives = [
   DoobStopPropagationDirective,
   DoobOnKeyDirective,
   DoobAllowedCharactersDirective,
+  DoobNotAllowedCharactersDirective,
   DoobPortalDirective,
   DoobPortalTemplateDirective
 ]

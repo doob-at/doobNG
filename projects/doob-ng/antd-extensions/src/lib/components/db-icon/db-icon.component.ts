@@ -1,7 +1,6 @@
 import { Input, Component, ChangeDetectionStrategy } from "@angular/core";
-import { IconProp, RotateProp } from "@fortawesome/fontawesome-svg-core";
 import { BehaviorSubject, combineLatest } from "rxjs";
-import { debounceTime, filter, map, share } from "rxjs/operators";
+import { map } from "rxjs/operators";
 
 @Component({
     selector: 'db-icon',
@@ -23,19 +22,19 @@ import { debounceTime, filter, map, share } from "rxjs/operators";
 export class DoobIconComponent {
 
 
-    private typeSubject$ = new BehaviorSubject<string>('');
+    // private typeSubject$ = new BehaviorSubject<string>('');
     private themeSubject$ = new BehaviorSubject<string>('');
     private rotateSubject$ = new BehaviorSubject<number>(0);
     private iconSubject$ = new BehaviorSubject<string>('');
 
-    @Input()
-    set type(value: "ant" | "fa") {
-        if (value == "ant" || value || "fa") {
-            this.typeSubject$.next(value);
-        } else {
-            this.typeSubject$.next("ant");
-        }
-    }
+    // @Input()
+    // set type(value: "ant" | "fa") {
+    //     if (value == "ant" || value || "fa") {
+    //         this.typeSubject$.next(value);
+    //     } else {
+    //         this.typeSubject$.next("ant");
+    //     }
+    // }
 
     @Input()
     set theme(value: string) {
@@ -53,8 +52,8 @@ export class DoobIconComponent {
     }
 
 
-    public iconProps$ = combineLatest([this.typeSubject$, this.themeSubject$, this.rotateSubject$, this.iconSubject$]).pipe(
-        map(([type, theme, rotate, icon]) => {
+    public iconProps$ = combineLatest([ this.themeSubject$, this.rotateSubject$, this.iconSubject$]).pipe(
+        map(([theme, rotate, icon]) => {
 
             
             if(!icon) {
@@ -63,7 +62,6 @@ export class DoobIconComponent {
             var ico = icon;
             const iProp = new IconProps();
             iProp.theme = theme;
-            iProp.type = type;
             iProp.rotate = rotate;
 
             
@@ -72,8 +70,7 @@ export class DoobIconComponent {
                 ico = ico.substring(3);
 
                 if (ico.includes('|')) {
-                    iProp.theme = ico.split('|')[0];
-                    iProp.icon = ico.split('|')[1]
+                    iProp.icon = ico.split('|')
                 } else {
                     iProp.icon = ico;
                 }
